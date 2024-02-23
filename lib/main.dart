@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/ui/widgets/app/my_app.dart';
+import 'ui/app/my_app.dart';
 
 
 void main(){

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('ru', 'RU'),
-        Locale('en', ''),
+        Locale('en', 'EN'),
       ],
       routes: mainNavigation.routes,
       initialRoute: MainNavigationRouteNames.loaderWidget,

@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:travel_app/resources/resources.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 import 'package:travel_app/ui/pages/auth/auth_model.dart';
-import 'package:travel_app/ui/widgets/elements/app_buttons.dart';
-import 'package:travel_app/ui/widgets/elements/custom_text_field.dart';
+import 'package:travel_app/ui/elements/app_buttons.dart';
+import 'package:travel_app/ui/elements/custom_text_field.dart';
 
 class AuthWidget extends StatelessWidget{
   const AuthWidget({super.key});

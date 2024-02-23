@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/data_model.dart';
+import '../../model/data_model.dart';
 
 abstract class CubitStates extends Equatable{}
 
