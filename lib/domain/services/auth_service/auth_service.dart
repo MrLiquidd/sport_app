@@ -18,9 +18,9 @@ class AuthService {
       username: login,
       password: password,
     );
-    //final accountId = await _accountApiClient.getAccountInfo(sessionId);
+    final accountId = await _accountApiClient.getAccountInfo(sessionId);
     await _sessionDataProvider.setSessionId(sessionId);
-    //await _sessionDataProvider.setAccountId(accountId);
+    await _sessionDataProvider.setAccountId(accountId);
   }
 
   Future<void> logout() async {

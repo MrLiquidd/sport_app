@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_app/domain/cubit/app_cubit_states.dart';
-import 'package:travel_app/domain/cubit/app_cubits.dart';
+import 'package:travel_app/domain/blocs/detail_bloc/app_cubit_states.dart';
+import 'package:travel_app/domain/blocs/detail_bloc/app_cubits.dart';
 import 'package:travel_app/ui/theme/colors.dart';
-import 'package:travel_app/ui/widgets/elements/app_buttons.dart';
-import 'package:travel_app/ui/widgets/elements/app_large_text.dart';
-import 'package:travel_app/ui/widgets/elements/app_text.dart';
-import 'package:travel_app/ui/widgets/elements/responsive_button.dart';
+import 'package:travel_app/ui/elements/app_buttons.dart';
+import 'package:travel_app/ui/elements/app_large_text.dart';
+import 'package:travel_app/ui/elements/app_text.dart';
+import 'package:travel_app/ui/elements/responsive_button.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key});

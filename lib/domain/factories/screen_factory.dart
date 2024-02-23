@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_app/domain/blocs/auth_bloc/auth_bloc.dart';
+import 'package:travel_app/domain/blocs/auth_bloc/auth_states.dart';
 import 'package:travel_app/ui/pages/auth/auth_model.dart';
 import 'package:travel_app/ui/pages/auth/auth_widget.dart';
 import 'package:travel_app/ui/pages/loader/loaded_page.dart';
@@ -11,9 +14,15 @@ import 'package:travel_app/ui/pages/navpages/my_page.dart';
 import 'package:travel_app/ui/pages/navpages/search_page.dart';
 
 class ScreenFactory {
+
+  AuthBloc? _authBloc;
+
   Widget makeLoader() {
-    return Provider(
-      create: (context) => LoaderViewModel(context),
+    final authBloc = _authBloc ?? AuthBloc(AuthCheckStatusInProgressState());
+    _authBloc = authBloc;
+    return BlocProvider<LoaderViewCubit>(
+      create: (context) =>
+          LoaderViewCubit(LoaderViewCubitState.unknown, authBloc),
       lazy: false,
       child: const LoadedPage(),
     );
@@ -22,11 +31,13 @@ class ScreenFactory {
   Widget makeAuth() {
     return ChangeNotifierProvider(
       create: (_) => AuthViewModel(),
-      child: AuthWidget(),
+      child: const AuthWidget(),
     );
   }
 
   Widget makeMainScreen() {
+    _authBloc?.close();
+    _authBloc = null;
     return const MainScreenWidget();
   }
 
