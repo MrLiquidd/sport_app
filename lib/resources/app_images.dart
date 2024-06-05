@@ -5,6 +5,7 @@ class AppImages {
 
   static const String loaded = 'img/loaded.svg';
   static const String login = 'img/login.svg';
-  static const String fans3 = 'img/undraw_fans_re_cri3.svg.svg';
+  static const String signup = 'img/signup.svg';
+  static const String fans3 = 'img/undraw_fans_re_cri3.svg';
 
 }

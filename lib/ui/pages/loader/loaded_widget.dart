@@ -41,7 +41,7 @@ class _LoadedPageState extends State<LoadedPage> {
   void _onLoaderViewCubitStateChange(BuildContext context ,LoaderViewCubitState state){
     final nextScreen = state == LoaderViewCubitState.authorized
         ? MainNavigationRouteNames.mainScreen
-        : MainNavigationRouteNames.auth;
+        : MainNavigationRouteNames.welcome;
     Navigator.of(context).pushReplacementNamed(nextScreen);
   }
 }

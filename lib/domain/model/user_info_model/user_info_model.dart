@@ -21,14 +21,13 @@ class UserInfoModel {
     required this.about_me,
     required this.age,
     required this.deleted,
-    // required this.user_id,
     required this.photo_id,
     required this.city,
     required this.friends_count,
   });
 
 
-  factory UserInfoModel.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
+  factory UserInfoModel.fromJson(Map<String, dynamic> json) => _$UserInfoModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserInfoToJson(this);
+  Map<String, dynamic> toJson() => _$UserInfoModelToJson(this);
 }

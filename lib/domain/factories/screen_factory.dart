@@ -1,21 +1,33 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:travel_app/domain/blocs/auth_bloc/auth_bloc.dart';
 import 'package:travel_app/domain/blocs/auth_bloc/auth_states.dart';
-import 'package:travel_app/ui/pages/auth/auth_model.dart';
-import 'package:travel_app/ui/pages/auth/auth_widget.dart';
-import 'package:travel_app/ui/pages/loader/loaded_page.dart';
-import 'package:travel_app/ui/pages/loader/loader_view_model.dart';
+import 'package:travel_app/domain/blocs/signup_bloc/signup_bloc.dart';
+import 'package:travel_app/ui/pages/auth/auth/auth_view_cubit.dart';
+import 'package:travel_app/ui/pages/auth/auth/auth_widget.dart';
+import 'package:travel_app/ui/pages/auth/signup/signup_view_cubit.dart';
+import 'package:travel_app/ui/pages/auth/signup/signup_widget.dart';
+import 'package:travel_app/ui/pages/details/detail_page.dart';
+import 'package:travel_app/ui/pages/loader/loaded_widget.dart';
+import 'package:travel_app/ui/pages/loader/loader_view_cubit.dart';
 import 'package:travel_app/ui/navigation/navigation_bar.dart';
-import 'package:travel_app/ui/pages/navpages/bar_item_page.dart';
-import 'package:travel_app/ui/pages/navpages/home_page.dart';
-import 'package:travel_app/ui/pages/navpages/my_page.dart';
-import 'package:travel_app/ui/pages/navpages/search_page.dart';
+import 'package:travel_app/ui/pages/navpages/myTrainsPage/my_trains_page.dart';
+import 'package:travel_app/ui/pages/navpages/homePage/home_page.dart';
+import 'package:travel_app/ui/pages/navpages/myPage/my_page.dart';
+import 'package:travel_app/ui/pages/navpages/searchPage/search_page.dart';
+import 'package:travel_app/ui/pages/settings/settings_page.dart';
+import 'package:travel_app/ui/pages/welcome_page.dart';
 
 class ScreenFactory {
 
   AuthBloc? _authBloc;
+  SignUpBloc? _signUpBloc;
+
+  Widget makeWelcome(){
+    return const WelcomePage();
+  }
 
   Widget makeLoader() {
     final authBloc = _authBloc ?? AuthBloc(AuthCheckStatusInProgressState());
@@ -23,15 +35,25 @@ class ScreenFactory {
     return BlocProvider<LoaderViewCubit>(
       create: (context) =>
           LoaderViewCubit(LoaderViewCubitState.unknown, authBloc),
-      lazy: false,
       child: const LoadedPage(),
     );
   }
 
   Widget makeAuth() {
-    return ChangeNotifierProvider(
-      create: (_) => AuthViewModel(),
+    final authBloc = _authBloc ?? AuthBloc(AuthCheckStatusInProgressState());
+    _authBloc = authBloc;
+    return BlocProvider<AuthViewCubit>(
+      create: (_) => AuthViewCubit(AuthViewCubitFormFillInProgressState(), authBloc),
       child: const AuthWidget(),
+    );
+  }
+
+  Widget makeSignUp(){
+    final signUpBloc = _signUpBloc ?? SignUpBloc(SignUpCheckStatusInProgressState());
+    _signUpBloc = signUpBloc;
+    return BlocProvider<SignUpViewCubit>(
+      create: (_) => SignUpViewCubit(SignUpViewCubitFormFillInProgressState(), signUpBloc),
+      child: const SignUpWidget(),
     );
   }
 
@@ -41,12 +63,9 @@ class ScreenFactory {
     return const MainScreenWidget();
   }
 
-  // Widget makeMovieDetails(int movieId) {
-  //   return ChangeNotifierProvider(
-  //     create: (_) => MovieDetailsModel(movieId),
-  //     child: const MovieDetailsWidget(),
-  //   );
-  // }
+  Widget makeEventDetails(int eventId) {
+    return const SettingsPage();
+  }
 
 
   Widget makeHomePage() {
@@ -54,7 +73,7 @@ class ScreenFactory {
   }
 
   Widget makeBarItem() {
-    return const BarItemPage();
+    return const myTrainingsPage();
   }
 
   Widget makeSearchPage() {
@@ -63,5 +82,9 @@ class ScreenFactory {
 
   Widget makeMyPage() {
     return const MyPage();
+  }
+
+  Widget makeSettingsPage(){
+    return const SettingsPage();
   }
 }

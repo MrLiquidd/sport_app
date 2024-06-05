@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:travel_app/domain/blocs/detail_bloc/app_cubits.dart';
+import 'package:travel_app/ui/navigation/main_navigation.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 import 'package:travel_app/ui/elements/app_large_text.dart';
 
@@ -14,18 +13,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  List images = [
-    "welcome-one.png",
-    "welcome-two.png",
-    "welcome-three.png",
-  ];
-
-  List texts = [
-    'Mountain hikes give you an incredible sense of freedom along with endurance tests',
-    '',
-    '',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,9 +34,11 @@ class _WelcomePageState extends State<WelcomePage> {
                   //Registration
                   GestureDetector(
                     onTap: (){
-                      BlocProvider.of<AppCubits>(context).getData();
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.signup,
+                      );
                     },
-                    child: Container(
+                    child: SizedBox(
                       width: 300,
                       child: Row(
                         children: [
@@ -78,9 +67,11 @@ class _WelcomePageState extends State<WelcomePage> {
                   //Enter
                   GestureDetector(
                     onTap: (){
-                      BlocProvider.of<AppCubits>(context).getData();
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.auth,
+                      );
                     },
-                    child: Container(
+                    child: SizedBox(
                       width: 300,
                       child: Row(
                         children: [
@@ -95,8 +86,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               child: Row(
                                 mainAxisAlignment:MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                      child: AppLargeText(text: "Войти", color: AppColors.textColor1, size: 18,))
+                                  AppLargeText(text: "Войти", color: AppColors.textColor1, size: 18,)
                                 ],
                               ),
                             ),

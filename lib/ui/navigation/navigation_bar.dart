@@ -27,8 +27,8 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         index: _selectedTab,
         children: [
           _screenFactory.makeHomePage(),
-          _screenFactory.makeBarItem(),
           _screenFactory.makeSearchPage(),
+          _screenFactory.makeBarItem(),
           _screenFactory.makeMyPage(),
         ],
       ),

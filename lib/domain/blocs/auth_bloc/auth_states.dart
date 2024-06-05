@@ -1,9 +1,3 @@
-enum AuthStateStatus {
-  authorized,
-  notAuthorized,
-  inProgress
-}
-
 abstract class AuthState {}
 
 class AuthUnauthorizedState extends AuthState {

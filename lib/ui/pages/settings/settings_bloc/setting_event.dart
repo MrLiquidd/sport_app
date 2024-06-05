@@ -1,4 +1,10 @@
 part of 'setting_bloc.dart';
 
-@immutable
-abstract class SettingEvent {}
+abstract class SettingEvent {
+  const SettingEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoadSetting extends SettingEvent {}

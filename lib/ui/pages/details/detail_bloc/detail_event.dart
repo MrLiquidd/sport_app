@@ -1,4 +1,10 @@
 part of 'detail_bloc.dart';
 
-@immutable
-abstract class DetailEvent {}
+abstract class DetailEvent {
+  const DetailEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoadDetails extends DetailEvent{}

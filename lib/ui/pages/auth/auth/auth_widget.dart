@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_app/resources/resources.dart';
 import 'package:travel_app/ui/navigation/main_navigation.dart';
-import 'package:travel_app/ui/pages/auth/auth_view_cubit.dart';
+import 'package:travel_app/ui/pages/auth/auth/auth_view_cubit.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 
 class _AuthDataStorage {
@@ -55,7 +55,7 @@ class _HeaderWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
-          height: 100,
+          height: 50,
         ),
         SvgPicture.asset(
           AppImages.login,
@@ -75,51 +75,109 @@ class _FormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final authDataStorage = context.read<_AuthDataStorage>();
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const _ErrorMessageWidget(),
-          // CustomTextField(
-          //   controller: model.loginTextController,
-          //   name: "Email",
-          //   prefixIcon: null,
-          //   inputType: TextInputType.emailAddress,
-          //   textCapitalization: TextCapitalization.words,
-          // ),
-          // CustomTextField(
-          //   controller: model.passwordTextController,
-          //   name: "Password",
-          //   prefixIcon: null,
-          //   inputType: TextInputType.text,
-          //   textCapitalization: TextCapitalization.words,
-          // ),
-          TextField(
-            onChanged: (text) => authDataStorage.login = text,
+          const SizedBox(
+            height: 15,
           ),
+          const Text(
+            'Вход',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const _ErrorMessageWidget(),
+          TextField(
+            autofocus: false,
+            onChanged: (text) => authDataStorage.login = text,
+            style: const TextStyle(fontSize: 15, color: Colors.black87),
+            decoration: InputDecoration(
+              hintText: 'E-mail',
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder:  OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: const BorderSide(color: Colors.white, width: 0),
+              ),
+
+              focusedBorder: OutlineInputBorder(
+                borderRadius:BorderRadius.circular(16),
+                borderSide: const BorderSide(color: Colors.white,)
+              ),
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+          const SizedBox(height: 16),
           TextField(
             onChanged: (text) => authDataStorage.password = text,
+            decoration: InputDecoration(
+              hintText: 'Password',
+              filled: true,
+              fillColor: Colors.white,
+              enabledBorder:  OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: const BorderSide(color: Colors.white, width: 0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius:BorderRadius.circular(16),
+                  borderSide: const BorderSide(color: Colors.white, width: 0)
+              ),
+            ),
+            obscureText: true,
           ),
           const SizedBox(
             height: 15,
           ),
-          Row(
-            children: [
-              const _AuthButtonWidget(),
-              const SizedBox(width: 30),
-              TextButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all(const Color(0xFF01B4E4)),
-                  textStyle: MaterialStateProperty.all(
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          Center(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Забыли пароль?'),
+                  TextButton(
+                    onPressed: () {
+                      // Handle password recovery
+                    },
+                    child: const Text(
+                      'Восстановить',
+                      style: TextStyle(
+                        color: Colors.teal,
+                      ),
+                    ),
                   ),
-                ),
-                child: const Text('Reset password'),
-              ),
-            ],
-          )
+                ]
+            ),
+          ),
+          const SizedBox(height: 50,),
+          const _AuthButtonWidget(),
+          Center(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Нет аккаунта?'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.signup,
+                      );
+                    },
+                    child: const Text(
+                      'Зарегистрироваться',
+                      style: TextStyle(
+                        color: Colors.teal,
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+          ),
         ],
       ),
     );
@@ -132,7 +190,6 @@ class _AuthButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<AuthViewCubit>();
-    const color = Color(0xFF01B4E4);
     final authDataStorage = context.read<_AuthDataStorage>();
     final canStartAuth = cubit.state is AuthViewCubitFormFillInProgressState
         || cubit.state is AuthViewCubitErrorState;
@@ -144,27 +201,31 @@ class _AuthButtonWidget extends StatelessWidget {
 
     final child = cubit.state is AuthViewCubitAuthProgressState
         ? const SizedBox(
-            width: 15,
-            height: 15,
+            width: 30,
+            height: 30,
             child: CircularProgressIndicator(strokeWidth: 2),
           )
-        : const Text('Login');
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(color),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        textStyle: MaterialStateProperty.all(
-          const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
-        padding: MaterialStateProperty.all(
-          const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 8,
+        : const Text(
+        'Войти',
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 18,
+      fontWeight: FontWeight.w800,
+    ),);
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.textColor1,
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
           ),
         ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

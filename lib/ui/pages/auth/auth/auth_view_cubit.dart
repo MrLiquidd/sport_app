@@ -17,7 +17,6 @@ class AuthViewCubitFormFillInProgressState extends AuthViewCubitState{
   @override
   int get hashCode => 0;
 }
-
 class AuthViewCubitErrorState extends AuthViewCubitState{
   final String errorMessage;
 
