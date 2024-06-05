@@ -1,4 +1,3 @@
-
 abstract class AuthEvents{}
 
 class AuthCheckStatusEvent extends AuthEvents {}

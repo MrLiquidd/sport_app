@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-class BarItemPage extends StatelessWidget {
-  const BarItemPage({super.key});
+class myTrainingsPage extends StatelessWidget {
+  const myTrainingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(
-        child: Text(
-          "Bar Item Page"
-        ),
+    return const Center(
+      child: Text(
+        "myTrainingsPage"
       ),
     );
   }

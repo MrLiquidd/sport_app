@@ -1,48 +1,58 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:travel_app/domain/blocs/detail_bloc/app_cubit_states.dart';
-import 'package:travel_app/domain/blocs/detail_bloc/app_cubits.dart';
+import 'package:travel_app/configuration/configuration.dart';
+import 'package:travel_app/domain/model/event_model/event_model.dart';
+import 'package:travel_app/ui/navigation/main_navigation.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 import 'package:travel_app/ui/elements/app_buttons.dart';
 import 'package:travel_app/ui/elements/app_large_text.dart';
 import 'package:travel_app/ui/elements/app_text.dart';
 import 'package:travel_app/ui/elements/responsive_button.dart';
 
-class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+class DetailView extends StatelessWidget {
+  final Event event;
 
-  @override
-  State<DetailPage> createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
-  int gottenStars = 4;
-  int selectedIndex = 4;
-
-  List icons = [Icons.local_parking, Icons.bedroom_child, Icons.wifi];
-  List textCom = ['Парковка', 'Можно с ребенком', 'Бесплатный Wi-Fi'];
+  const DetailView({Key? key, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubits, CubitStates>(builder: (context, state) {
-      DetailState detail = state as DetailState;
+    return Scaffold(
+      body:  _DetailPageState(event: event,)
+    );
+  }
+}
+
+
+class _DetailPageState extends StatelessWidget {
+
+  final Event event;
+  final int gottenStars = 4;
+  final int selectedIndex = 4;
+
+  final List icons = [Icons.local_parking, Icons.bedroom_child, Icons.wifi];
+  final List textCom = ['Парковка', 'Можно с ребенком', 'Бесплатный Wi-Fi'];
+
+  _DetailPageState({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
       return SafeArea(
         child: Scaffold(
           body: Stack(
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Image(
-                  image: NetworkImage(
-                    "http://mark.bslmeiyu.com/uploads/" + detail.place.img,
+                child: Container(
+                  color: Colors.black,
+                  child: Image(
+                    image: NetworkImage('${Configuration.host}${event.photoId}'),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
               buttonArrow(context),
-              scroll(context, detail),
+              _scroll(event, icons, textCom),
               Positioned(
                   bottom: 20,
                   left: 20,
@@ -68,15 +78,17 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
       );
-    });
+    }
   }
 
-  buttonArrow(BuildContext context) {
+  Widget buttonArrow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: InkWell(
         onTap: () {
-          BlocProvider.of<AppCubits>(context).goHome();
+          Navigator.of(context).pushNamed(
+            MainNavigationRouteNames.mainScreen,
+          );
         },
         child: Container(
             clipBehavior: Clip.hardEdge,
@@ -101,7 +113,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  scroll(context, detail) {
+  Widget _scroll(Event event, icons, textCom) {
     return DraggableScrollableSheet(
         initialChildSize: 0.6,
         maxChildSize: 1.0,
@@ -143,19 +155,18 @@ class _DetailPageState extends State<DetailPage> {
                       height: 18,
                     ),
                     //description
-                    Container(
-                        child: AppText(
-                      text: detail.place.description,
+                    AppText(
+                      text: event.about,
                       color: AppColors.mainTextColor,
                       size: 14,
-                    )),
+                    ),
                     const SizedBox(
                       height: 18,
                     ),
                     //About event card
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 40, horizontal: 20),
+                          vertical: 30, horizontal: 20),
                       width: double.maxFinite,
                       height: 272,
                       decoration: BoxDecoration(
@@ -164,19 +175,19 @@ class _DetailPageState extends State<DetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Row(
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Количство участников',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 14),
                               ),
                               Text(
-                                '10-12',
-                                style: TextStyle(
+                                '10-${event.quantity}',
+                                style: const TextStyle(
                                     color: AppColors.textColor1,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -184,7 +195,7 @@ class _DetailPageState extends State<DetailPage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 25,
+                            height: 15,
                           ),
                           const Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,7 +219,7 @@ class _DetailPageState extends State<DetailPage> {
                           const SizedBox(
                             height: 25,
                           ),
-                          Row(
+                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -219,7 +230,7 @@ class _DetailPageState extends State<DetailPage> {
                                     fontSize: 14),
                               ),
                               Text(
-                                detail.place.price.toString(),
+                                event.price.toString(),
                                 style: const TextStyle(
                                     color: AppColors.textColor1,
                                     fontWeight: FontWeight.w500,
@@ -230,19 +241,19 @@ class _DetailPageState extends State<DetailPage> {
                           const SizedBox(
                             height: 25,
                           ),
-                          const Row(
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Возрасть',
+                              const Text(
+                                'Возраст',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 14),
                               ),
                               Text(
-                                '14+',
-                                style: TextStyle(
+                                event.minAge.toString(),
+                                style: const TextStyle(
                                     color: AppColors.textColor1,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
@@ -266,7 +277,7 @@ class _DetailPageState extends State<DetailPage> {
                                 children: List.generate(5, (index) {
                                   return Icon(
                                     Icons.star,
-                                    color: index < detail.place.stars
+                                    color: index < 0//detail.place.stars
                                         ? AppColors.starColor
                                         : AppColors.textColor2,
                                   );
@@ -351,4 +362,3 @@ class _DetailPageState extends State<DetailPage> {
               ));
         });
   }
-}

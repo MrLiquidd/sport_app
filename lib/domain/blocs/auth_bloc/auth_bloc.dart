@@ -6,7 +6,9 @@ import 'package:travel_app/domain/blocs/auth_bloc/auth_events.dart';
 import 'package:travel_app/domain/data_providers/session_data_provider.dart';
 import 'auth_states.dart';
 
+
 class AuthBloc extends Bloc<AuthEvents, AuthState> {
+
   final _authApiClient = AuthApiClient();
   final _accountApiClient = AccountApiClient();
   final _sessionDataProvider = SessionDataProvider();
@@ -28,7 +30,8 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
       AuthCheckStatusEvent event,
       Emitter<AuthState> emit,
       ) async {
-    final sessionId = await _sessionDataProvider.getSessionId();
+    emit(AuthInProgressState());
+    final sessionId = await _sessionDataProvider.getRefreshId();
     final newState =
     sessionId != null ? AuthAuthorizedState() : AuthUnauthorizedState();
     emit(newState);
@@ -39,12 +42,14 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
       Emitter<AuthState> emit,
       ) async {
     try {
-      final sessionId = await _authApiClient.auth(
+      emit(AuthInProgressState());
+      final (String, String) tokens = await _authApiClient.auth(
         username: event.login,
         password: event.password,
       );
-      final accountId = await _accountApiClient.getAccountInfo(sessionId);
-      await _sessionDataProvider.setSessionId(sessionId);
+      final accountId = await _accountApiClient.getAccountInfo(tokens.$1);
+      await _sessionDataProvider.setAccessId(tokens.$1);
+      await _sessionDataProvider.setRefreshId(tokens.$2);
       await _sessionDataProvider.setAccountId(accountId);
       emit(AuthAuthorizedState());
     } catch (e) {
@@ -57,7 +62,8 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
       Emitter<AuthState> emit,
       ) async {
     try {
-      await _sessionDataProvider.deleteSessionId();
+      await _sessionDataProvider.deleteAccessId();
+      await _sessionDataProvider.deleteRefreshId();
       await _sessionDataProvider.deleteAccountId();
     } catch (e) {
       emit(AuthFailureState(e));
