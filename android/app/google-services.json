@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "280619777796",
+    "project_id": "sportapp-c0faa",
+    "storage_bucket": "sportapp-c0faa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280619777796:android:228e1e407514e32af8da51",
+        "android_client_info": {
+          "package_name": "com.example.travel_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVim9A7e0aZfb9xHfkGBKJ_CvEF1khH3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
