@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/domain/factories/screen_factory.dart';
+import 'package:travel_app/ui/navigation/main_navigation.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +25,21 @@ class MyPage extends StatelessWidget {
                     TextButton(
                         onPressed: (){
                         },
-                        child: Text('Изменить')
+                        child: const Text('Изменить')
                     ),
                     IconButton(
                         color: Colors.grey,
                         iconSize: 30,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/settings');
+                          Navigator.of(context).pushNamed(
+                            MainNavigationRouteNames.settings,
+                          );
                         },
                         icon: const Icon(Icons.settings)),
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Column(
                 children: [
                   Container(
@@ -42,22 +47,22 @@ class MyPage extends StatelessWidget {
                     height: 128,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         fit: BoxFit.cover,
                           image: AssetImage('img/welcome-one.png')
                       )
                     ),
                   ),
-                  SizedBox(height: 24,),
+                  const SizedBox(height: 24,),
                   Container(
-                    child: Text('Демидова Алина, 34',
+                    child: const Text('Демидова Алина, 34',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w500
                     ),
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,16 +74,16 @@ class MyPage extends StatelessWidget {
                             Navigator.pushNamed(context, '/settings');
                           },
                           icon: const Icon(Icons.location_on)),
-                      Text('Казань',
+                      const Text('Казань',
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 16
                       ),),
                     ],
                   ),
-                  SizedBox(height: 26,),
+                  const SizedBox(height: 26,),
                   Container(
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxHeight: double.infinity
                     ),
                     width: 343,
@@ -108,7 +113,7 @@ class MyPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  const SizedBox(height: 12,),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -143,7 +148,7 @@ class MyPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         Container(
                           width: 215,
                           height: 73,

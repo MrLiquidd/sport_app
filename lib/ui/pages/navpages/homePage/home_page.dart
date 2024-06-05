@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:travel_app/domain/services/auth_service/auth_service.dart';
 import 'package:travel_app/resources/resources.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 import 'package:travel_app/ui/elements/app_large_text.dart';
@@ -69,8 +70,7 @@ class _HomeHeaderWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-      const EdgeInsets.only(top: 70, left: 20, right: 20, bottom: 15),
+      padding: const EdgeInsets.only(top: 70, left: 20, right: 20, bottom: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -82,7 +82,9 @@ class _HomeHeaderWidget extends StatelessWidget{
               IconButton(
                   color: Colors.grey,
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    AuthService().logout();
+                  },
                   icon: const Icon(Icons.notifications)),
               IconButton(
                   iconSize: 30,
