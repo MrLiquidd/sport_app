@@ -18,11 +18,35 @@ class EventApiClient {
       }
       return events;
     }
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
+
 
     final result = await _networkClient.get(
         '/events/',
-        accessId!,
+        parameters,
         parser
+    );
+    return result;
+  }
+
+  Future<Event> getDetailEvent(String event_id) async{
+    final accessId = await _sessionDataProvider.getAccessId();
+    Event parser(dynamic json){
+      final jsonMap = json as Map<String, dynamic>;
+      final response = Event.fromJson(jsonMap);
+      return response;
+    }
+
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
+
+    final result = _networkClient.get(
+      '/events/$event_id',
+      parameters,
+      parser,
     );
     return result;
   }
@@ -38,10 +62,13 @@ class EventApiClient {
       }
       return events;
     }
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
 
     final result = await _networkClient.get(
         '/events/games/',
-        accessId!,
+        parameters,
         parser
     );
     return result;
@@ -58,10 +85,13 @@ class EventApiClient {
       }
       return events;
     }
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
 
     final result = await _networkClient.get(
         '/events/trainings/',
-        accessId!,
+        parameters,
         parser
     );
     return result;
@@ -80,9 +110,13 @@ class EventApiClient {
       return events;
     }
 
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
+
     final result = await _networkClient.get(
         '/events/recent/',
-        accessId!,
+        parameters,
         parser
     );
     return result;

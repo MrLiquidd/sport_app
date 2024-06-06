@@ -10,4 +10,5 @@ class AppColors{
   static const Color buttonBackground = Color(0xFFf1f1f9);
   static const Color mainBackground = Color(0xFFF5F5FA);
   static const Color cardBackground2 = Color(0xFFF5F5FA);
+  static const Color cardText = Color(0xFF787B9E);
 }

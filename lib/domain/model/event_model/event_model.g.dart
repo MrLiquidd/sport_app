@@ -21,6 +21,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
       deleted: json['deleted'] as bool,
       eventType: json['event_type'] as String,
       full_addresses: json['full_addresses'] as String,
+      user_count: json['user_count'] as int,
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -37,5 +38,6 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'archive': instance.archive,
       'deleted': instance.deleted,
       'event_type': instance.eventType,
-      'full_addresses': instance.full_addresses
+      'full_addresses': instance.full_addresses,
+      'user_count' : instance.user_count,
     };

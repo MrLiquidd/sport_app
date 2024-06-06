@@ -160,13 +160,13 @@ class _LoadEvents extends StatelessWidget {
           if (state is EventsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EventsLoaded) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                return EventCard(event: state.events[index]);
-              },
+            return Column(
+              children: List.generate(
+                state.events.length,
+                    (index) {
+                  return EventCard(event: state.events[index]);
+                },
+              ),
             );
           } else if (state is EventsError) {
             return Center(child: Text('Error: ${state.message}'));

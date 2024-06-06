@@ -45,6 +45,19 @@ flutter:
     - img/undraw_fans_re_cri3.svg
     - img/signup.svg
 
+fonts:
+  - family: Roboto
+    fonts:
+      - asset: fonts/Roboto-Regular.ttf
+      - asset: fonts/Roboto-Bold.ttf
+        weight: 700
+      - asset: fonts/Roboto-Italic.ttf
+        style: italic
+      - asset: fonts/Roboto-BoldItalic.ttf
+        weight: 700
+        style: italic
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -23,7 +23,7 @@ class NetworkClient {
 
   Future<T> get<T>(
       String path,
-      String token,
+      Map<String, dynamic> bodyParameters,
       T Function(dynamic json) parser, [
         Map<String, dynamic>? parameters,
       ]) async {
@@ -35,7 +35,7 @@ class NetworkClient {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'charset': 'utf-8',
-          'Authorization': 'JWT $token',
+          'Authorization': 'JWT ${bodyParameters['accessId']}',
         },
       );
 
@@ -49,7 +49,7 @@ class NetworkClient {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'charset': 'utf-8',
-            'Authorization': 'JWT $token',
+            'Authorization': 'JWT ${bodyParameters['token']}',
           },
         );
         jsonResponse = json.decode(response.body);

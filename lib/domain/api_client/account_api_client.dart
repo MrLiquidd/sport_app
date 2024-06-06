@@ -1,5 +1,3 @@
-
-import 'package:travel_app/configuration/configuration.dart';
 import 'package:travel_app/domain/api_client/network_client.dart';
 import 'package:travel_app/domain/data_providers/session_data_provider.dart';
 import 'package:travel_app/domain/model/user_info_model/user_info_model.dart';
@@ -23,7 +21,7 @@ class AccountApiClient {
   final _sessionDataProvider = SessionDataProvider();
 
   Future<String> getAccountInfo(
-      String sessionId,
+      String accessId,
       ) async {
     String parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
@@ -31,9 +29,13 @@ class AccountApiClient {
       return result;
     }
 
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
+
     final result = _networkClient.get(
       '/account',
-      sessionId,
+      parameters,
       parser,
     );
     return result;
@@ -49,10 +51,13 @@ class AccountApiClient {
       final response = UserModel.fromJson(jsonMap);
       return response;
     }
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
 
     final result = _networkClient.get(
       '/account',
-      accessId!,
+      parameters,
       parser,
     );
     return result;
@@ -68,10 +73,13 @@ class AccountApiClient {
       final response = UserInfoModel.fromJson(jsonMap);
       return response;
     }
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
 
     final result = _networkClient.get(
         '/user-info/$accountId',
-        accessId!,
+        parameters!,
         parser,
       );
     return result;

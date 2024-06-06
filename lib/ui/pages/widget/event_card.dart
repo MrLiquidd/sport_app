@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_app/configuration/configuration.dart';
 import 'package:travel_app/domain/model/event_model/event_model.dart';
@@ -19,7 +21,7 @@ class EventCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailView(event: event,),
+            builder: (context) => DetailView(id: event.id,),
           ),
         );
       },
@@ -28,18 +30,43 @@ class EventCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(event.eventType, style: const TextStyle(color: Colors.teal)),
-                const Spacer(),
-                Text("0/${event.quantity}"),
-              ],
+            const SizedBox(height: 20,),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white, // Цвет фона текста
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      child: Text(event.eventType,
+                          style: const TextStyle(
+                              color: Colors.teal,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Roboto',
+                          ))),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      const Icon(Icons.group_outlined,color: AppColors.cardText,),
+                      Text("${event.user_count}/${event.quantity}",
+                      style: const TextStyle(
+                        color: AppColors.cardText,
+                        fontWeight: FontWeight.w500
+                      )),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 6,),
             Card(
               elevation: 0,
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -70,7 +97,7 @@ class EventCard extends StatelessWidget {
                               children: [
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.1), // Цвет фона текста
+                                    color: const Color(0xFFF5F5FA), // Цвет фона текста
                                     borderRadius: BorderRadius.circular(10.0), // Радиус закругления углов
                                   ),
                                   padding: const EdgeInsets.all(8.0),
@@ -85,7 +112,11 @@ class EventCard extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 10,),
-                                Text("${DateFormat('EEEE', 'ru_RU').format(event.date)}, ${event.date.day}.${event.date.month}"),
+                                Text(formatEventDate(event.date),
+                                  style: const TextStyle(
+                                    fontSize: 14
+                                  ),
+                                ),
                               ],
                             )
                           ],
@@ -105,8 +136,9 @@ class EventCard extends StatelessWidget {
                         const Spacer(),
                         Text("${event.price} ₽",
                           style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                            fontSize: 18,
+                            color: AppColors.cardText,
+                            fontWeight: FontWeight.w600
                           ),),
                       ],
                     ),
@@ -114,7 +146,6 @@ class EventCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
           ],
         ),
       ),
@@ -134,4 +165,11 @@ class EventCard extends StatelessWidget {
       child: Icon(Icons.person),
     );
   }
+
+  String formatEventDate(DateTime date) {
+    String dayOfWeek = DateFormat('EEEE', 'ru_RU').format(date);
+    String capitalizedDayOfWeek = dayOfWeek[0].toUpperCase() + dayOfWeek.substring(1);
+    return "$capitalizedDayOfWeek, ${date.day}.${date.month}";
+  }
+
 }
