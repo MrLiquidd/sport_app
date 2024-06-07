@@ -44,7 +44,7 @@ class AccountApiClient {
 
   Future<UserModel> getUserSettingsInfo(
       ) async {
-    final accessId = await _sessionDataProvider.getAccessId();
+    final accessId = await _sessionDataProvider.getAccessJWTToken();
 
     UserModel parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
@@ -66,7 +66,7 @@ class AccountApiClient {
   Future<UserInfoModel> getUserInfo(
       ) async {
     final accountId = await  _sessionDataProvider.getAccountId();
-    final accessId = await _sessionDataProvider.getAccessId();
+    final accessId = await _sessionDataProvider.getAccessJWTToken();
 
     UserInfoModel parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;

@@ -6,8 +6,8 @@ class AuthService {
   final _sessionDataProvider = SessionDataProvider();
 
   Future<void> logout() async {
-    await _sessionDataProvider.deleteAccessId();
-    await _sessionDataProvider.deleteRefreshId();
+    await _sessionDataProvider.deleteAccessJWTToken();
+    await _sessionDataProvider.deleteRefreshJWTToken();
     await _sessionDataProvider.deleteAccountId();
   }
 }

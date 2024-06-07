@@ -100,13 +100,16 @@ class _HomeHeaderWidget extends StatelessWidget {
               IconButton(
                   color: Colors.grey,
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                  },
                   icon: const Icon(Icons.notifications)),
               IconButton(
                   iconSize: 30,
                   color: Colors.red,
                   onPressed: () {
-                    // AuthApiClient().refreshToken();
+                    Navigator.of(context).pushNamed(
+                      MainNavigationRouteNames.userFavorites,
+                    );
                   },
                   icon: const Icon(Icons.favorite)),
             ],
@@ -178,7 +181,6 @@ class _LoadEvents extends StatelessWidget {
     );
   }
 }
-
 
 class CircleTabIndicator extends Decoration {
   final Color color;

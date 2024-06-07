@@ -29,22 +29,3 @@ class EventsError extends EventListState {
   @override
   List<Object> get props => [message];
 }
-
-
-// class EventListState {
-//   final EventListContainer lastEventContainer;
-//   final EventListContainer searchEventContainer;
-//   final EventListContainer trainsEventContainer;
-//   final EventListContainer gamesEventContainer;
-//   final String searchQuery;
-//
-//   EventListState({
-//     required this.lastEventContainer,
-//     required this.searchEventContainer,
-//     required this.trainsEventContainer,
-//     required this.gamesEventContainer,
-//     required this.searchQuery
-//   });
-//
-//   bool get isSearchMode => searchQuery.isNotEmpty;
-// }

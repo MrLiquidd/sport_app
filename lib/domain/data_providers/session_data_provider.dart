@@ -9,22 +9,22 @@ abstract class _Keys {
 class SessionDataProvider {
   static const _secureStorage = FlutterSecureStorage();
 
-  Future<String?> getAccessId() async => await _secureStorage.read(key: _Keys.access);
-  Future<String?> getRefreshId() async => await _secureStorage.read(key: _Keys.refresh);
+  Future<String?> getAccessJWTToken() async => await _secureStorage.read(key: _Keys.access);
+  Future<String?> getRefreshJWTToken() async => await _secureStorage.read(key: _Keys.refresh);
   Future<String?> getAccountId() async => await _secureStorage.read(key: _Keys.accountId);
 
-  Future<void> setAccessId(String value) {
+  Future<void> setAccessJWTToken(String value) {
     return _secureStorage.write(key: _Keys.access, value: value);
   }
-  Future<void> setRefreshId(String value) {
+  Future<void> setRefreshJWTToken(String value) {
     return _secureStorage.write(key: _Keys.refresh, value: value);
   }
 
 
-  Future<void> deleteAccessId() {
+  Future<void> deleteAccessJWTToken() {
     return _secureStorage.delete(key: _Keys.access);
   }
-  Future<void> deleteRefreshId() {
+  Future<void> deleteRefreshJWTToken() {
     return _secureStorage.delete(key: _Keys.refresh);
   }
 

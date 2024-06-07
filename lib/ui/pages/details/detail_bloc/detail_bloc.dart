@@ -12,15 +12,24 @@ class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
   final _eventApiClient = EventApiClient();
 
   EventDetailBloc() : super(EventDetailInitial()) {
-    on<FetchEventDetail>((event, emit) async {
-      emit(EventDetailLoading());
-      try {
-        final eventDetail = await _eventApiClient.getDetailEvent(event.id);
-        emit(EventDetailLoaded(eventDetail));
-      } catch (e) {
-        emit(EventDetailError(e.toString()));
+    on<EventDetailEvent>((event, emit) async {
+      if (event is FetchEventDetail){
+        await loadDetailEvent(event, emit);
       }
     });
+  }
+
+  Future<void> loadDetailEvent(
+      FetchEventDetail event,
+      Emitter<EventDetailState> emit,
+      )async {
+    emit(EventDetailLoading());
+    try {
+      final eventDetail = await _eventApiClient.getDetailEvent(event.event_id);
+      emit(EventDetailLoaded(eventDetail));
+    } catch (e) {
+      emit(EventDetailError(e.toString()));
+    }
   }
 }
 

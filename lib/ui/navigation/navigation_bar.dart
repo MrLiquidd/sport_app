@@ -28,25 +28,30 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         children: [
           _screenFactory.makeHomePage(),
           _screenFactory.makeSearchPage(),
-          _screenFactory.makeBarItem(),
+          _screenFactory.makeTrainingsPage(),
           _screenFactory.makeMyPage(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        iconSize: 30,
-        selectedItemColor: AppColors.textColor1,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _selectedTab,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.sports_tennis), label: "Bar"),
-          BottomNavigationBarItem(icon: Icon(Icons.library_books_outlined), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Me"),
-        ],
-        onTap: onSelectTab,
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+            color: Colors.black,
+            border: Border(top: BorderSide(color: Colors.grey, width: 0.5))),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          iconSize: 30,
+          selectedItemColor: AppColors.textColor1,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          currentIndex: _selectedTab,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.sports_tennis), label: "Bar"),
+            BottomNavigationBarItem(icon: Icon(Icons.library_books_outlined), label: "Search"),
+            BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Me"),
+          ],
+          onTap: onSelectTab,
+        ),
       ),
     );
   }

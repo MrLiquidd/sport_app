@@ -10,6 +10,7 @@ abstract class MainNavigationRouteNames {
   static const eventDetails = '/main_screen/event_details';
   static const settings = '/main_screen/settings';
   static const uploadUser = '/main_screen/user/upload';
+  static const userFavorites = '/user/favorites';
 }
 
 class MainNavigation {
@@ -23,6 +24,7 @@ class MainNavigation {
     MainNavigationRouteNames.mainScreen: (_) => _screenFactory.makeMainScreen(),
     MainNavigationRouteNames.settings: (_) => _screenFactory.makeSettingsPage(),
     MainNavigationRouteNames.uploadUser: (_) => _screenFactory.makeSettingsPage(),
+    MainNavigationRouteNames.userFavorites: (_) => _screenFactory.makeUserFavorites(),
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {

@@ -46,8 +46,6 @@ class UserProfilePage extends StatelessWidget {
   }
 }
 
-
-
 class ProfileView extends StatelessWidget{
   final UserInfoModel user;
 
@@ -128,7 +126,7 @@ class ProfileView extends StatelessWidget{
         ? CircleAvatar(
       radius: 50,
       backgroundColor: Colors.transparent,
-      backgroundImage: NetworkImage('${Configuration.host}${user.photo_id}'),
+      backgroundImage: NetworkImage('${Configuration.host}/images/${user.photo_id}'),
     )
         : const CircleAvatar(
       radius: 50,

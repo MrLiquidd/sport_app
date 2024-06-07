@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 import 'package:travel_app/domain/api_client/event_api_client.dart';
 import 'package:travel_app/domain/model/event_model/event_model.dart';
 
-part 'favorite_event.dart';
-part 'favorite_state.dart';
+part 'trains_event.dart';
+part 'trains_state.dart';
 
 class EventListContainer{
   final List<Event> events;
@@ -17,23 +19,25 @@ class EventListContainer{
     required this.totalPage});
 }
 
-class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
+
+class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
   final EventApiClient eventApiClient;
 
-  FavoriteListBloc(this.eventApiClient) : super(EventsInitial()) {
-    on<LoadFavoriteEvents>(_onLoadEvents);
+  TrainsListBloc(this.eventApiClient) : super(TrainsInitial()) {
+    on<LoadTrainsEvents>(_onLoadEvents);
   }
 
   void _onLoadEvents(
-      LoadFavoriteEvents event,
-      Emitter<FavoriteListState> emit) async {
+      LoadTrainsEvents event,
+      Emitter<TrainsListState> emit) async {
     emit(EventsLoading());
     try {
-      final events = await eventApiClient.getFavoritesEvents();
+      final events = await eventApiClient.getRecordsEvents();
       emit(EventsLoaded(events));
     } catch (e) {
       emit(EventsError(e.toString()));
     }
   }
 }
+
 

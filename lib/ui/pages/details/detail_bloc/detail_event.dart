@@ -9,10 +9,10 @@ abstract class EventDetailEvent extends Equatable {
 }
 
 class FetchEventDetail extends EventDetailEvent {
-  final String id;
+  final String event_id;
 
-  const FetchEventDetail(this.id);
+  const FetchEventDetail(this.event_id);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [event_id];
 }

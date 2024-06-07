@@ -157,7 +157,7 @@ class EventCard extends StatelessWidget {
         ? CircleAvatar(
       radius: 20,
       backgroundColor: Colors.transparent,
-      backgroundImage: NetworkImage('${Configuration.host}${event.photoId}'),
+      backgroundImage: NetworkImage('${Configuration.host}/images/${event.photoId}'),
     )
         : const CircleAvatar(
       radius: 50,

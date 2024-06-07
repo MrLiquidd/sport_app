@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +12,7 @@ import 'package:travel_app/ui/pages/auth/auth/auth_widget.dart';
 import 'package:travel_app/ui/pages/auth/signup/signup_view_cubit.dart';
 import 'package:travel_app/ui/pages/auth/signup/signup_widget.dart';
 import 'package:travel_app/ui/pages/details/detail_page.dart';
+import 'package:travel_app/ui/pages/favorite/favorite_page.dart';
 import 'package:travel_app/ui/pages/loader/loaded_widget.dart';
 import 'package:travel_app/ui/pages/loader/loader_view_cubit.dart';
 import 'package:travel_app/ui/navigation/navigation_bar.dart';
@@ -67,12 +70,15 @@ class ScreenFactory {
     return const SettingsPage();
   }
 
+  Widget makeUserFavorites(){
+    return const FavoritePage();
+  }
 
   Widget makeHomePage() {
     return const HomePage();
   }
 
-  Widget makeBarItem() {
+  Widget makeTrainingsPage() {
     return const myTrainingsPage();
   }
 

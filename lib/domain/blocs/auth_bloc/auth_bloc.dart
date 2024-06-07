@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
       Emitter<AuthState> emit,
       ) async {
     emit(AuthInProgressState());
-    final sessionId = await _sessionDataProvider.getRefreshId();
+    final sessionId = await _sessionDataProvider.getRefreshJWTToken();
     final newState =
     sessionId != null ? AuthAuthorizedState() : AuthUnauthorizedState();
     emit(newState);
@@ -48,8 +48,8 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
         password: event.password,
       );
       final accountId = await _accountApiClient.getAccountInfo(tokens.$1);
-      await _sessionDataProvider.setAccessId(tokens.$1);
-      await _sessionDataProvider.setRefreshId(tokens.$2);
+      await _sessionDataProvider.setAccessJWTToken(tokens.$1);
+      await _sessionDataProvider.setRefreshJWTToken(tokens.$2);
       await _sessionDataProvider.setAccountId(accountId);
       emit(AuthAuthorizedState());
     } catch (e) {
@@ -62,8 +62,8 @@ class AuthBloc extends Bloc<AuthEvents, AuthState> {
       Emitter<AuthState> emit,
       ) async {
     try {
-      await _sessionDataProvider.deleteAccessId();
-      await _sessionDataProvider.deleteRefreshId();
+      await _sessionDataProvider.deleteAccessJWTToken();
+      await _sessionDataProvider.deleteRefreshJWTToken();
       await _sessionDataProvider.deleteAccountId();
     } catch (e) {
       emit(AuthFailureState(e));

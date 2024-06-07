@@ -12,6 +12,7 @@ class AuthApiClient {
     required String username,
     required String password,
   }) async {
+
     final (String, String) tokens = await _validateUser(
       username: username,
       password: password,
@@ -49,6 +50,7 @@ class AuthApiClient {
     required String username,
     required String password,
   }) async {
+
     (String, String) parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final access = jsonMap['access'] as String;
