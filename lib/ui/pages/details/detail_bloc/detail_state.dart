@@ -1,22 +1,30 @@
 part of 'detail_bloc.dart';
 
-abstract class DetailState {
-  const DetailState();
+abstract class EventDetailState extends Equatable {
+  const EventDetailState();
 
+  @override
   List<Object> get props => [];
 }
 
-class DetailInitial extends DetailState {}
+class EventDetailInitial extends EventDetailState {}
 
-class DetailLoadInProgress extends DetailState {}
+class EventDetailLoading extends EventDetailState {}
 
-class DetailLoadSuccess extends DetailState {
+class EventDetailLoaded extends EventDetailState {
   final Event event;
 
-  const DetailLoadSuccess(this.event);
+  const EventDetailLoaded(this.event);
 
   @override
   List<Object> get props => [event];
 }
 
-class DetailLoadFailure extends DetailState {}
+class EventDetailError extends EventDetailState {
+  final String message;
+
+  const EventDetailError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

@@ -19,6 +19,7 @@ class Event{
   final bool deleted;
   final String eventType;
   final String full_addresses;
+  final int user_count;
 
   Event({
     required this.id,
@@ -34,7 +35,8 @@ class Event{
     required this.archive,
     required this.deleted,
     required this.eventType,
-    required this.full_addresses
+    required this.full_addresses,
+    required this.user_count,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

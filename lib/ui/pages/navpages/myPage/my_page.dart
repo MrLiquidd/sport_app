@@ -46,8 +46,6 @@ class UserProfilePage extends StatelessWidget {
   }
 }
 
-
-
 class ProfileView extends StatelessWidget{
   final UserInfoModel user;
 
@@ -55,11 +53,39 @@ class ProfileView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: AppColors.mainBackground,
+    return Scaffold(
+      backgroundColor: AppColors.mainBackground,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              color: Colors.grey,
+              iconSize: 30,
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  MainNavigationRouteNames.settings,
+                );
+              },
+              icon: const Icon(Icons.settings)),
+          const SizedBox(width: 15,),
+        ],
+        leading: TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                MainNavigationRouteNames.settings,
+              );
+            },
+            child: const Text(
+              'Изм.',
+              style: TextStyle(
+                  color: AppColors.textColor1
+              ),
+            )
+        ),
+        leadingWidth: 100,
+      ),
+      body: SafeArea(
         child: Column(
           children: [
-            _appBar(context),
             const SizedBox(height: 20,),
             Column(
               children: [
@@ -86,49 +112,17 @@ class ProfileView extends StatelessWidget{
               ],
             ),
           ],
-        )
-    );
-  }
-
-  Widget _appBar(BuildContext context) {
-    return Container(
-      color: AppColors.mainBackground,
-      padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  MainNavigationRouteNames.settings,
-                );
-              },
-              child: const Text(
-                  'Изменить',
-                style: TextStyle(
-                    color: AppColors.textColor1
-                ),
-              )
-          ),
-          IconButton(
-              color: Colors.grey,
-              iconSize: 30,
-              onPressed: () {
-                Navigator.of(context).pushNamed(
-                  MainNavigationRouteNames.settings,
-                );
-              },
-              icon: const Icon(Icons.settings)),
-        ],
+        ),
       ),
     );
   }
+
   Widget _avatar() {
     return user.photo_id.isNotEmpty
         ? CircleAvatar(
       radius: 50,
       backgroundColor: Colors.transparent,
-      backgroundImage: NetworkImage('${Configuration.host}${user.photo_id}'),
+      backgroundImage: NetworkImage('${Configuration.host}/images/${user.photo_id}'),
     )
         : const CircleAvatar(
       radius: 50,
@@ -266,5 +260,4 @@ class ProfileView extends StatelessWidget{
       ),
     );
   }
-
 }

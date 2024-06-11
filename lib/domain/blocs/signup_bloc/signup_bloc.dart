@@ -30,7 +30,7 @@ class SignUpBloc extends Bloc<SignUpEvents, SignUpState> {
       Emitter<SignUpState> emit,
       ) async {
     emit(SignUpInProgressState());
-    final sessionId = await _sessionDataProvider.getRefreshId();
+    final sessionId = await _sessionDataProvider.getRefreshJWTToken();
     final newState = sessionId != null ? SignUpAuthorizedState() : SignUpUnauthorizedState();
     emit(newState);
   }

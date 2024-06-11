@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.mainBackground,
         body: SingleChildScrollView(
           child: Container(
             color: AppColors.mainBackground,
@@ -100,13 +100,17 @@ class _HomeHeaderWidget extends StatelessWidget {
               IconButton(
                   color: Colors.grey,
                   iconSize: 30,
-                  onPressed: () {},
+                  onPressed: () {
+                    AuthService().logout();
+                  },
                   icon: const Icon(Icons.notifications)),
               IconButton(
                   iconSize: 30,
                   color: Colors.red,
                   onPressed: () {
-                    // AuthApiClient().refreshToken();
+                    Navigator.of(context).pushNamed(
+                      MainNavigationRouteNames.userFavorites,
+                    );
                   },
                   icon: const Icon(Icons.favorite)),
             ],
@@ -160,13 +164,13 @@ class _LoadEvents extends StatelessWidget {
           if (state is EventsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EventsLoaded) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                return EventCard(event: state.events[index]);
-              },
+            return Column(
+              children: List.generate(
+                state.events.length,
+                    (index) {
+                  return EventCard(event: state.events[index]);
+                },
+              ),
             );
           } else if (state is EventsError) {
             return Center(child: Text('Error: ${state.message}'));
@@ -178,7 +182,6 @@ class _LoadEvents extends StatelessWidget {
     );
   }
 }
-
 
 class CircleTabIndicator extends Decoration {
   final Color color;

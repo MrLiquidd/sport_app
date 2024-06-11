@@ -12,6 +12,7 @@ class AuthApiClient {
     required String username,
     required String password,
   }) async {
+
     final (String, String) tokens = await _validateUser(
       username: username,
       password: password,
@@ -49,6 +50,7 @@ class AuthApiClient {
     required String username,
     required String password,
   }) async {
+
     (String, String) parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
       final access = jsonMap['access'] as String;
@@ -68,38 +70,5 @@ class AuthApiClient {
     );
     return result;
   }
-
-  // Future<void> refreshToken() async {
-  //
-  //   String parser(dynamic json) {
-  //     final jsonMap = json as Map<String, dynamic>;
-  //     final refresh = jsonMap['access'] as String;
-  //     return refresh;
-  //   }
-  //
-  //   final refreshToken = await _sessionDataProvider.getRefreshId();
-  //
-  //   if (refreshToken == null) {
-  //     // Handle the case where there is no refresh token
-  //     return;
-  //   }
-  //
-  //   final parameters = <String, dynamic>{
-  //     'refresh': refreshToken,
-  //   };
-  //
-  //   try {
-  //     final result = await _networkClient.refreshToken(
-  //       '/refresh/',
-  //       parameters,
-  //       parser,
-  //     );
-  //
-  //     await _sessionDataProvider.setAccessId(result);
-  //   } catch (e) {
-  //     // Handle errors appropriately, possibly rethrowing or logging them
-  //     print('Error refreshing token: $e');
-  //   }
-  // }
 }
 

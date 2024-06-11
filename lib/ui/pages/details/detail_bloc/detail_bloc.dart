@@ -1,26 +1,36 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:travel_app/domain/api_client/event_api_client.dart';
+import 'package:travel_app/domain/blocs/event_bloc/event_list_bloc.dart';
 import 'package:travel_app/domain/model/event_model/event_model.dart';
+import 'package:travel_app/ui/pages/navpages/myPage/user_bloc/user_bloc.dart';
 
 part 'detail_event.dart';
 part 'detail_state.dart';
 
-class DetailBloc extends Bloc<DetailEvent, DetailState> {
-  DetailBloc(super.initialState);
+class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
+  final _eventApiClient = EventApiClient();
 
-  @override
-  Stream<String> mapEventToState(String event) async* {
-    yield event;
+  EventDetailBloc() : super(EventDetailInitial()) {
+    on<EventDetailEvent>((event, emit) async {
+      if (event is FetchEventDetail){
+        await loadDetailEvent(event, emit);
+      }
+    });
   }
 
-  // DetailBloc() : super(DetailInitial()) {
-  //   on<LoadDetails>((event, emit) async {
-  //     emit(DetailLoadInProgress());
-  //     try {
-  //       final _event = Event(id: '', title: 'title', price: 0, about: 'about', minAge: 14, quantity: 12, photoId: '', date: DateTime(2000), isActive: true, createDate: DateTime(2000), archive: false, deleted: false, eventType: 'eventType', full_addresses: 'full_addresses');
-  //       emit(DetailLoadSuccess(_event));
-  //     } catch (_) {
-  //       emit(DetailLoadFailure());
-  //     }
-  //   });
-  // }
+  Future<void> loadDetailEvent(
+      FetchEventDetail event,
+      Emitter<EventDetailState> emit,
+      )async {
+    emit(EventDetailLoading());
+    try {
+      final eventDetail = await _eventApiClient.getDetailEvent(event.event_id);
+      emit(EventDetailLoaded(eventDetail));
+    } catch (e) {
+      emit(EventDetailError(e.toString()));
+    }
+  }
 }
+
+
