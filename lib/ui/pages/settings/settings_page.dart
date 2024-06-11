@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_app/domain/api_client/account_api_client.dart';
 import 'package:travel_app/domain/model/user_model/user_model.dart';
 import 'package:travel_app/domain/services/auth_service/auth_service.dart';
 import 'package:travel_app/ui/navigation/main_navigation.dart';
@@ -144,8 +146,7 @@ class SettingsView extends StatelessWidget{
                   const Divider(),
                   ListTile(
                     onTap: (){
-                      AuthService().logout();
-                      MainNavigation.resetNavigation(context);
+                      _showDialogQuitAccount(context);
                     },
                     title: const Text('Выйти из аккаунта'),
                     trailing: const Icon(Icons.logout),
@@ -189,7 +190,9 @@ class SettingsView extends StatelessWidget{
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: ListTile(
-                onTap: (){},
+                onTap: (){
+                  _showDialogDeleteAccount(context);
+                },
                 title: const Center(
                   child: Text(
                     'Удалить аккаунт',
@@ -224,4 +227,74 @@ class SettingsView extends StatelessWidget{
     );
   }
 
+  void _showDialogQuitAccount(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: const Text('Подтверждение'),
+          message: const Text('Вы уверены, что хотите выйти из аккаунта?'),
+          actions: <Widget>[
+            CupertinoActionSheetAction(
+              onPressed: () {
+                AuthService().logout();
+                MainNavigation.resetNavigation(context);
+              },
+              child: const Text('ОК',
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop(); // Закрываем диалоговое окно
+            },
+            child: const Text('Отмена',
+              style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.w600
+              ),),
+          ),
+        );
+      },
+    );
+  }
+  void _showDialogDeleteAccount(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: const Text('Подтверждение'),
+          message: const Text('Вы уверены, что хотите удалить аккаунт?'),
+          actions: <Widget>[
+            CupertinoActionSheetAction(
+              onPressed: () async {
+                final bool result = await AccountApiClient().deleteAccount();
+                print(result);
+                if(result){
+                  AuthService().logout();
+                }
+                MainNavigation.resetNavigation(context);
+              },
+              child: const Text('ОК',
+              style: TextStyle(
+                color: Colors.redAccent,
+              ),),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Отмена',
+            style: TextStyle(
+              color: Colors.blueAccent,
+              fontWeight: FontWeight.w600
+            ),),
+          ),
+        );
+      },
+    );
+  }
 }

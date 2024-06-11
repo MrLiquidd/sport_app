@@ -77,6 +77,7 @@ class NetworkClient {
       String body = jsonEncode(bodyParameters);
       http.Response response;
 
+
       if(token != null){
         response = await http.post(
           url,
