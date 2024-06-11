@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/domain/api_client/event_api_client.dart';
 import 'package:travel_app/ui/pages/widget/event_card.dart';
+import 'package:travel_app/ui/theme/colors.dart';
 import 'trains_bloc/trains_bloc.dart';
 
 class myTrainingsPage extends StatelessWidget {
@@ -10,6 +11,7 @@ class myTrainingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.mainBackground,
       appBar: AppBar(
         title: const Text('Расписание',
           style: TextStyle(

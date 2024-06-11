@@ -7,6 +7,8 @@ import 'package:travel_app/ui/navigation/main_navigation.dart';
 import 'package:travel_app/ui/pages/settings/settings_bloc/setting_bloc.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 
+import 'settings_pages/change_phone/change_phone.dart';
+
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -54,13 +56,6 @@ class SettingsView extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(
-                MainNavigationRouteNames.mainScreen,
-              );
-            },
-            icon: const Icon(Icons.arrow_back)),
         title: const Text('Настройки'),
       ),
       body: Container(
@@ -84,21 +79,36 @@ class SettingsView extends StatelessWidget{
               child: Column(
                 children: [
                   ListTile(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.changePhone,
+                        arguments: user.mobile
+                      );
+                    },
                     title: const Text('Телефон'),
                     subtitle: Text(user.mobile),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                   const Divider(),
                   ListTile(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.changeBirth,
+                        arguments: user.born_date,
+                      );
+                    },
                     title: const Text('Дата рождения'),
                     subtitle: Text("${user.born_date.year.toString()}-${user.born_date.month.toString().padLeft(2,'0')}-${user.born_date.day.toString().padLeft(2,'0')}"),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                   const Divider(),
                   ListTile(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.changeGender,
+                        arguments: user.gender,
+                      );
+                    },
                     title: const Text('Пол'),
                     subtitle:  Text(user.gender),
                     trailing: const Icon(Icons.arrow_forward_ios),

@@ -8,9 +8,13 @@ abstract class MainNavigationRouteNames {
   static const signup = '/signup';
   static const mainScreen = '/main_screen';
   static const eventDetails = '/main_screen/event_details';
-  static const settings = '/main_screen/settings';
   static const uploadUser = '/main_screen/user/upload';
-  static const userFavorites = '/user/favorites';
+  static const userFavorites = '/main_screen/user/favorites';
+  static const settings = '/main_screen/user/settings';
+
+  static const changePhone = '/main_screen/user/settings/change_phone';
+  static const changeGender = '/main_screen/user/settings/change_gender';
+  static const changeBirth = '/main_screen/user/settings/change_birth';
 }
 
 class MainNavigation {
@@ -29,15 +33,23 @@ class MainNavigation {
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case MainNavigationRouteNames.eventDetails:
+      case MainNavigationRouteNames.changePhone:
         final arguments = settings.arguments;
-        final eventId = arguments is int ? arguments : 0;
+        final currentPhone = arguments is String ? arguments : 0;
         return MaterialPageRoute(
-          builder: (_) => _screenFactory.makeEventDetails(eventId),
+          builder: (_) => _screenFactory.makeChangePhone(currentPhone),
         );
-      case MainNavigationRouteNames.settings:
+      case MainNavigationRouteNames.changeGender:
+        final arguments = settings.arguments;
+        final currentGender = arguments is String ? arguments : 0;
         return MaterialPageRoute(
-            builder: (_) => _screenFactory.makeSettingsPage(),
+          builder: (_) => _screenFactory.makeChangeGender(currentGender),
+        );
+      case MainNavigationRouteNames.changeBirth:
+        final arguments = settings.arguments;
+        final currentBirth = arguments is DateTime ? arguments : 0;
+        return MaterialPageRoute(
+          builder: (_) => _screenFactory.makeChangeBirth(currentBirth),
         );
       default:
         const widget = Text('Navigation error!!!');

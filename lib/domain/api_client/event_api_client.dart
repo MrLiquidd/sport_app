@@ -125,7 +125,6 @@ class EventApiClient {
     List<Event> parser(dynamic json) {
       final List<Event> events = [];
       final jsonList = json as List<dynamic>;
-      print(jsonList);
       for (var jsonItem in jsonList) {
         events.add(Event.fromJson(jsonItem as Map<String, dynamic>));
       }

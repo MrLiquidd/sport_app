@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:travel_app/configuration/configuration.dart';
-import 'package:travel_app/domain/api_client/auth_api_client.dart';
 import 'package:travel_app/domain/data_providers/session_data_provider.dart';
 
 import 'api_client_exception.dart';
@@ -38,6 +37,7 @@ class NetworkClient {
           'Authorization': 'JWT ${bodyParameters['accessId']}',
         },
       );
+
 
       var jsonResponse = json.decode(response.body);
       final isValid = _validateResponse(response, jsonResponse);
@@ -74,7 +74,6 @@ class NetworkClient {
       ) async {
     try {
       final url = _makeUri(path, urlParameters);
-
       String body = jsonEncode(bodyParameters);
       http.Response response;
 
@@ -101,66 +100,6 @@ class NetworkClient {
         final accessId = await refreshToken();
         token = accessId;
         response = await http.post(
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'charset': 'utf-8',
-              'Authorization': 'JWT $token',
-            },
-            body: bodyParameters
-        );
-
-        var jsonResponse = json.decode(response.body);
-        final result = parser(jsonResponse);
-        return result;
-      }
-      final result = parser(jsonResponse);
-      return result;
-    } on SocketException {
-      throw ApiClientException(ApiClientExceptionType.network);
-    } on ApiClientException {
-      rethrow;
-    } catch (e) {
-      throw ApiClientException(ApiClientExceptionType.other);
-    }
-  }
-
-  Future<T> delete<T>(
-      String path,
-      Map<String, dynamic> bodyParameters,
-      T Function(dynamic json) parser,
-      [String? token, Map<String, dynamic>? urlParameters,]
-      ) async {
-    try {
-      final url = _makeUri(path, urlParameters);
-
-      String body = jsonEncode(bodyParameters);
-      http.Response response;
-
-      if(token != null){
-        response = await http.delete(
-            url,
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'charset': 'utf-8',
-              'Authorization': 'JWT $token',
-            },
-            body: body
-        );
-      }
-      else{
-        response = await http.delete(url,
-            body: bodyParameters);
-      }
-      var jsonResponse = json.decode(response.body);
-      final isValid = _validateResponse(response, jsonResponse);
-
-      if (!isValid) {
-        final accessId = await refreshToken();
-        token = accessId;
-        response = await http.delete(
             url,
             headers: {
               'Content-Type': 'application/json',
@@ -217,7 +156,6 @@ class NetworkClient {
       return result;
     } catch (e) {
       // Handle errors appropriately, possibly rethrowing or logging them
-      print('Error refreshing token: $e');
       return 'Error refreshing token: $e';
     }
   }

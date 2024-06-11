@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.mainBackground,
         body: SingleChildScrollView(
           child: Container(
             color: AppColors.mainBackground,
@@ -101,6 +101,7 @@ class _HomeHeaderWidget extends StatelessWidget {
                   color: Colors.grey,
                   iconSize: 30,
                   onPressed: () {
+                    AuthService().logout();
                   },
                   icon: const Icon(Icons.notifications)),
               IconButton(
