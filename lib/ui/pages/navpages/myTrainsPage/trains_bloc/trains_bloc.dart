@@ -25,6 +25,7 @@ class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
 
   TrainsListBloc(this.eventApiClient) : super(TrainsInitial()) {
     on<LoadTrainsEvents>(_onLoadEvents);
+    on<UnRecordEvent>(_unFavoriteEvent);
   }
 
   void _onLoadEvents(
@@ -35,6 +36,17 @@ class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
       final events = await eventApiClient.getRecordsEvents();
       emit(EventsLoaded(events));
     } catch (e) {
+      emit(EventsError(e.toString()));
+    }
+  }
+
+  void _unFavoriteEvent(
+      UnRecordEvent event,
+      Emitter<TrainsListState> emit
+      ) async{
+    try{
+      await eventApiClient.deleteRecordEvent(event.event_id);
+    } catch (e){
       emit(EventsError(e.toString()));
     }
   }
