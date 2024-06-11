@@ -20,6 +20,7 @@ import 'package:travel_app/ui/pages/navpages/searchPage/search_page.dart';
 import 'package:travel_app/ui/pages/settings/settings_page.dart';
 import 'package:travel_app/ui/pages/settings/settings_pages/change_birth/change_birth.dart';
 import 'package:travel_app/ui/pages/settings/settings_pages/change_gender/change_gender.dart';
+import 'package:travel_app/ui/pages/settings/settings_pages/change_password/change_password.dart';
 import 'package:travel_app/ui/pages/settings/settings_pages/change_phone/change_phone.dart';
 import 'package:travel_app/ui/pages/welcome_page.dart';
 
@@ -76,9 +77,11 @@ class ScreenFactory {
   Widget makeMyPage() {
     return const MyPage();
   }
+
   Widget makeSettingsPage(){
     return const SettingsPage();
   }
+
   Widget makeChangePhone(currentPhone){
     return ChangePhoneScreen(currentPhone: currentPhone,);
   }
@@ -87,5 +90,8 @@ class ScreenFactory {
   }
   Widget makeChangeBirth(currentBirth){
     return ChangeBirthScreen(currentBirth: currentBirth,);
+  }
+  Widget makeChangePassword(){
+    return ChangePasswordScreen();
   }
 }

@@ -75,5 +75,28 @@ class SettingsApiClient{
 
 
   }
+  Future<bool> postChangePassword(String newPassword, String oldPassword) async{
+    final accessId = await _sessionDataProvider.getAccessJWTToken();
 
+    bool parser(dynamic json){
+      final jsonMap = json as Map<String, dynamic>;
+      final status = jsonMap['result'] as bool;
+      return status;
+    }
+
+    final parameters = <String, dynamic>{
+      'old_password': oldPassword,
+      'new_password': newPassword
+    };
+
+    final result = await _networkClient.post(
+      '/update/change-password/',
+      parameters,
+      parser,
+      accessId,
+    );
+    return result;
+
+
+  }
 }

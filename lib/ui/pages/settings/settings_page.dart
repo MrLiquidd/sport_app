@@ -133,7 +133,11 @@ class SettingsView extends StatelessWidget{
               child: Column(
                 children: [
                   ListTile(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.of(context).pushNamed(
+                        MainNavigationRouteNames.changePassword,
+                      );
+                    },
                     title: const Text('Сменить пароль'),
                     trailing: const Icon(Icons.arrow_forward_ios),
                   ),

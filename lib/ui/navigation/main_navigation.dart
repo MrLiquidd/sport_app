@@ -15,6 +15,7 @@ abstract class MainNavigationRouteNames {
   static const changePhone = '/main_screen/user/settings/change_phone';
   static const changeGender = '/main_screen/user/settings/change_gender';
   static const changeBirth = '/main_screen/user/settings/change_birth';
+  static const changePassword = '/main_screen/user/settings/change_password';
 }
 
 class MainNavigation {
@@ -50,6 +51,10 @@ class MainNavigation {
         final currentBirth = arguments is DateTime ? arguments : 0;
         return MaterialPageRoute(
           builder: (_) => _screenFactory.makeChangeBirth(currentBirth),
+        );
+      case MainNavigationRouteNames.changePassword:
+        return MaterialPageRoute(
+          builder: (_) => _screenFactory.makeChangePassword(),
         );
       default:
         const widget = Text('Navigation error!!!');
