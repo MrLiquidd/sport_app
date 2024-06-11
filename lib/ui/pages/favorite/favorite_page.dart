@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/domain/api_client/event_api_client.dart';
+import 'package:travel_app/domain/model/event_model/event_model.dart';
 import 'package:travel_app/ui/pages/widget/event_card.dart';
+import 'package:travel_app/ui/theme/colors.dart';
 
 import 'favorite_bloc/favorite_bloc.dart';
 
@@ -11,6 +13,7 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.mainBackground,
       appBar: AppBar(
         title: const Text('Избранное',
           style: TextStyle(
@@ -18,39 +21,19 @@ class FavoritePage extends StatelessWidget {
           ),),
       ),
       body: SafeArea(
-          child: _FavoritePage()),
-    );
-  }
-
-
-}
-
-class _FavoritePage extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _AppBar(),
-        _LoadEvents(),
-      ],
+        child: _LoadEvents(),),
     );
   }
 }
 
-class _AppBar extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-}
 
 class _LoadEvents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FavoriteListBloc(EventApiClient())..add(LoadFavoriteEvents()),
+      create: (context) =>
+      FavoriteListBloc(EventApiClient())
+        ..add(LoadFavoriteEvents()),
       child: BlocBuilder<FavoriteListBloc, FavoriteListState>(
         builder: (context, state) {
           if (state is EventsLoading) {
@@ -61,7 +44,12 @@ class _LoadEvents extends StatelessWidget {
               shrinkWrap: true,
               itemCount: state.events.length,
               itemBuilder: (context, index) {
-                return EventCard(event: state.events[index]);
+                return Column(
+                  children: [
+                    EventCard(event: state.events[index]),
+                    _DeleteButton(event: state.events[index],)
+                  ],
+                );
               },
             );
           } else if (state is EventsError) {
@@ -73,4 +61,41 @@ class _LoadEvents extends StatelessWidget {
       ),
     );
   }
+}
+
+class _DeleteButton extends StatelessWidget {
+  final Event event;
+
+  const _DeleteButton({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: BlocBuilder<FavoriteListBloc, FavoriteListState>(
+        builder: (context, state) {
+          return SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              onPressed: () {
+                context.read<FavoriteListBloc>().add(UnFavoriteEvent(event.id));
+              },
+              child: const Text(
+                'Удалить из избранного',
+                style: TextStyle(color: Colors.redAccent),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
 }

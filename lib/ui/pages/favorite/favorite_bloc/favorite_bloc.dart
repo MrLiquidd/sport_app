@@ -22,6 +22,7 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
 
   FavoriteListBloc(this.eventApiClient) : super(EventsInitial()) {
     on<LoadFavoriteEvents>(_onLoadEvents);
+    on<UnFavoriteEvent>(_unFavoriteEvent);
   }
 
   void _onLoadEvents(
@@ -32,6 +33,17 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       final events = await eventApiClient.getFavoritesEvents();
       emit(EventsLoaded(events));
     } catch (e) {
+      emit(EventsError(e.toString()));
+    }
+  }
+
+  void _unFavoriteEvent(
+      UnFavoriteEvent event,
+      Emitter<FavoriteListState> emit
+      ) async{
+    try{
+      await eventApiClient.deleteFavoriteEvent(event.event_id);
+    } catch (e){
       emit(EventsError(e.toString()));
     }
   }
