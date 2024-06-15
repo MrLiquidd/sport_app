@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/domain/factories/screen_factory.dart';
+import 'package:travel_app/ui/pages/navpages/myPage/updateUser_page.dart';
 
 abstract class MainNavigationRouteNames {
   static const loaderWidget = '/';
@@ -16,6 +17,8 @@ abstract class MainNavigationRouteNames {
   static const changeGender = '/main_screen/user/settings/change_gender';
   static const changeBirth = '/main_screen/user/settings/change_birth';
   static const changePassword = '/main_screen/user/settings/change_password';
+
+  static const friendsList = '/main_screen/user/friends';
 }
 
 class MainNavigation {
@@ -28,8 +31,8 @@ class MainNavigation {
     MainNavigationRouteNames.signup: (_) => _screenFactory.makeSignUp(),
     MainNavigationRouteNames.mainScreen: (_) => _screenFactory.makeMainScreen(),
     MainNavigationRouteNames.settings: (_) => _screenFactory.makeSettingsPage(),
-    MainNavigationRouteNames.uploadUser: (_) => _screenFactory.makeSettingsPage(),
     MainNavigationRouteNames.userFavorites: (_) => _screenFactory.makeUserFavorites(),
+    MainNavigationRouteNames.friendsList: (_) => _screenFactory.makeFriendsList(),
   };
 
   Route<Object> onGenerateRoute(RouteSettings settings) {
@@ -67,8 +70,5 @@ class MainNavigation {
       MainNavigationRouteNames.loaderWidget,
           (route) => false,
     );
-  }
-  static void searchNavigation(BuildContext context) {
-    _screenFactory.makeSearchPage();
   }
 }

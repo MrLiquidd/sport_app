@@ -13,7 +13,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoadInProgress());
       try {
         final user = _accountApiClient.getUserInfo();
-        final photo =
         emit(UserLoadSuccess(await user));
       } catch (_) {
         emit(UserLoadFailure());

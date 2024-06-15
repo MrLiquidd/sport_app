@@ -8,16 +8,16 @@ import 'package:travel_app/domain/model/event_model/event_model.dart';
 part 'trains_event.dart';
 part 'trains_state.dart';
 
-class EventListContainer{
-  final List<Event> events;
-  final int currentPage;
-  final int totalPage;
-
-  EventListContainer({
-    required this.events,
-    required this.currentPage,
-    required this.totalPage});
-}
+// class EventListContainer{
+//   final List<Event> events;
+//   final int currentPage;
+//   final int totalPage;
+//
+//   EventListContainer({
+//     required this.events,
+//     required this.currentPage,
+//     required this.totalPage});
+// }
 
 
 class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
@@ -25,7 +25,7 @@ class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
 
   TrainsListBloc(this.eventApiClient) : super(TrainsInitial()) {
     on<LoadTrainsEvents>(_onLoadEvents);
-    on<UnRecordEvent>(_unFavoriteEvent);
+    on<UnRecordEvent>(_unRecordEvent);
   }
 
   void _onLoadEvents(
@@ -40,14 +40,21 @@ class TrainsListBloc extends Bloc<TrainsListEvent, TrainsListState> {
     }
   }
 
-  void _unFavoriteEvent(
+  void _unRecordEvent(
       UnRecordEvent event,
-      Emitter<TrainsListState> emit
-      ) async{
-    try{
-      await eventApiClient.deleteRecordEvent(event.event_id);
-    } catch (e){
-      emit(EventsError(e.toString()));
+      Emitter<TrainsListState> emit) async {
+    if (state is EventsLoaded) {
+      final currentState = state as EventsLoaded;
+      try {
+        await eventApiClient.deleteRecordEvent(event.event_id);
+        // Обновление списка после удаления
+        final updatedEvents = currentState.events
+            .where((e) => e.id != event.event_id)
+            .toList();
+        emit(EventsLoaded(updatedEvents));
+      } catch (e) {
+        emit(EventsError(e.toString()));
+      }
     }
   }
 }

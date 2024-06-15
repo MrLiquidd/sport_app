@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:travel_app/domain/api_client/account_api_client.dart';
 import 'package:travel_app/domain/model/user_model/user_model.dart';
 import 'package:travel_app/domain/services/auth_service/auth_service.dart';
 import 'package:travel_app/ui/navigation/main_navigation.dart';
 import 'package:travel_app/ui/pages/settings/settings_bloc/setting_bloc.dart';
 import 'package:travel_app/ui/theme/colors.dart';
-
-import 'settings_pages/change_phone/change_phone.dart';
 
 
 class SettingsPage extends StatelessWidget {

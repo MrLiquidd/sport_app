@@ -8,16 +8,16 @@ part of 'user_info_model.dart';
 
 UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
     UserInfoModel(
-      id: json['id'] as String,
-      first_name: json['first_name'] as String,
-      last_name: json['last_name'] as String,
-      about_me: json['about_me'] as String,
-      age: json['age'] as int,
-      deleted: json['deleted'] as bool,
-      photo_id: json['photo_id'] as String,
-      city: json['city'] as String,
-      friends_count: json['friends_count'] as int,
-    );
+        id: json['id'] as String,
+        first_name: json['first_name'] as String,
+        last_name: json['last_name'] as String,
+        about_me: json['about_me'] as String,
+        age: json['age'] as int,
+        deleted: json['deleted'] as bool,
+        photo_id: json['photo_id'] as String,
+        city: json['city'] as String,
+        friends_count: json['friends_count'] as int,
+        visits_count: json['visits_count'] as int);
 
 Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
     <String, dynamic>{
@@ -30,4 +30,5 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'photo_id': instance.photo_id,
       'city': instance.city,
       'friends_count': instance.friends_count,
+      'visits_count': instance.friends_count,
     };
