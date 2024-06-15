@@ -13,6 +13,7 @@ class UserInfoModel {
   final String photo_id;
   final String city;
   final int friends_count;
+  final int visits_count;
 
   UserInfoModel({
     required this.id,
@@ -24,6 +25,7 @@ class UserInfoModel {
     required this.photo_id,
     required this.city,
     required this.friends_count,
+    required this.visits_count,
   });
 
 

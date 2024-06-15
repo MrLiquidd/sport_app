@@ -10,9 +10,11 @@ import 'package:travel_app/ui/pages/auth/auth/auth_widget.dart';
 import 'package:travel_app/ui/pages/auth/signup/signup_view_cubit.dart';
 import 'package:travel_app/ui/pages/auth/signup/signup_widget.dart';
 import 'package:travel_app/ui/pages/favorite/favorite_page.dart';
+import 'package:travel_app/ui/pages/friends/friends.dart';
 import 'package:travel_app/ui/pages/loader/loaded_widget.dart';
 import 'package:travel_app/ui/pages/loader/loader_view_cubit.dart';
 import 'package:travel_app/ui/navigation/navigation_bar.dart';
+import 'package:travel_app/ui/pages/navpages/homePage/map/google_map.dart';
 import 'package:travel_app/ui/pages/navpages/myTrainsPage/my_trains_page.dart';
 import 'package:travel_app/ui/pages/navpages/homePage/home_page.dart';
 import 'package:travel_app/ui/pages/navpages/myPage/my_page.dart';
@@ -28,6 +30,7 @@ class ScreenFactory {
 
   AuthBloc? _authBloc;
   SignUpBloc? _signUpBloc;
+
 
   Widget makeWelcome(){
     return const WelcomePage();
@@ -72,7 +75,7 @@ class ScreenFactory {
     return const myTrainingsPage();
   }
   Widget makeSearchPage() {
-   return const SearchPage();
+   return SearchPage();
   }
   Widget makeMyPage() {
     return const MyPage();
@@ -93,5 +96,9 @@ class ScreenFactory {
   }
   Widget makeChangePassword(){
     return ChangePasswordScreen();
+  }
+
+  Widget makeFriendsList(){
+    return FriendsPage();
   }
 }

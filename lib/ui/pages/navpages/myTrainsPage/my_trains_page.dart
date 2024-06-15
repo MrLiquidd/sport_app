@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/domain/api_client/event_api_client.dart';
 import 'package:travel_app/domain/model/event_model/event_model.dart';
-import 'package:travel_app/ui/pages/widget/event_card.dart';
+import 'package:travel_app/ui/cards/event_card.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 import 'trains_bloc/trains_bloc.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class myTrainingsPage extends StatelessWidget {
   const myTrainingsPage({super.key});
@@ -14,10 +15,12 @@ class myTrainingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.mainBackground,
       appBar: AppBar(
-        title: const Text('Расписание',
+        title: const Text(
+          'Расписание',
           style: TextStyle(
-              fontWeight: FontWeight.w600,
-          ),),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
@@ -35,8 +38,7 @@ class myTrainingsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-          child: _LoadEvents()),
+      body: SafeArea(child: _LoadEvents()),
     );
   }
 }
@@ -45,25 +47,46 @@ class _LoadEvents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TrainsListBloc(EventApiClient())..add(LoadTrainsEvents()),
+      create: (context) =>
+          TrainsListBloc(EventApiClient())..add(LoadTrainsEvents()),
       child: BlocBuilder<TrainsListBloc, TrainsListState>(
         builder: (context, state) {
           if (state is EventsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EventsLoaded) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    EventCard(event: state.events[index],),
-                    _ShowQrCode(event: state.events[index],),
-                    _DeleteButton(event: state.events[index],),
-                  ],
-                );
+            return RefreshIndicator(
+              onRefresh: () async {
+                // Добавление события для обновления
+                context.read<TrainsListBloc>().add(LoadTrainsEvents());
               },
+              backgroundColor: AppColors.textColor1, // Цвет фона индикатора
+              color: Colors.white, // Цвет иконки индикатора
+              child: state.events.isEmpty
+                  ? ListView(
+                      children: const [
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text(
+                                'Нет записей. Потяните вниз, чтобы обновить.'),
+                          ),
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: state.events.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            EventCard(event: state.events[index]),
+                            _ShowQrCode(event: state.events[index]),
+                            _DeleteButton(event: state.events[index]),
+                          ],
+                        );
+                      },
+                    ),
             );
           } else if (state is EventsError) {
             return Center(child: Text('Error: ${state.message}'));
@@ -80,6 +103,43 @@ class _ShowQrCode extends StatelessWidget {
   final Event event;
 
   const _ShowQrCode({super.key, required this.event});
+
+  void _showQRCodeDialog(BuildContext context, String id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ),
+          content: SizedBox(
+              width: 300,
+              height: 300,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  QrImageView(
+                    data: id,
+                    gapless: true,
+                  ),
+                  const Text(
+                    'QR-код для посещения занятия',
+                    style: TextStyle(color: AppColors.textColor1),
+                  ),
+                ],
+              )),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +158,7 @@ class _ShowQrCode extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // context.read<TrainsListBloc>().add(UnFavoriteEvent(event.id));
+                _showQRCodeDialog(context, "${event.title}:${event.date}:${event.full_addresses}");
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,8 +167,11 @@ class _ShowQrCode extends StatelessWidget {
                     'Показать QR-code',
                     style: TextStyle(color: AppColors.textColor1),
                   ),
-                  Icon(Icons.arrow_forward_ios, color: AppColors.textColor1,
-                  size: 20,)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.textColor1,
+                    size: 20,
+                  )
                 ],
               ),
             ),
@@ -117,7 +180,6 @@ class _ShowQrCode extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _DeleteButton extends StatelessWidget {
@@ -151,7 +213,10 @@ class _DeleteButton extends StatelessWidget {
                     'Отменить запись',
                     style: TextStyle(color: Colors.redAccent),
                   ),
-                  Icon(Icons.close, color: Colors.redAccent,)
+                  Icon(
+                    Icons.close,
+                    color: Colors.redAccent,
+                  )
                 ],
               ),
             ),
@@ -160,5 +225,4 @@ class _DeleteButton extends StatelessWidget {
       ),
     );
   }
-
 }

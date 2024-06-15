@@ -126,6 +126,66 @@ class NetworkClient {
     }
   }
 
+  Future<T> put<T>(
+      String path,
+      Map<String, dynamic> bodyParameters,
+      T Function(dynamic json) parser,
+      [String? token, Map<String, dynamic>? urlParameters,]
+      ) async {
+    try {
+      final url = _makeUri(path, urlParameters);
+      String body = jsonEncode(bodyParameters);
+      http.Response response;
+
+
+      if(token != null){
+        response = await http.put(
+            url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'charset': 'utf-8',
+              'Authorization': 'JWT $token',
+            },
+            body: body
+        );
+      }
+      else{
+        response = await http.put(url,
+            body: bodyParameters);
+      }
+      var jsonResponse = json.decode(response.body);
+      final isValid = _validateResponse(response, jsonResponse);
+
+      if (!isValid) {
+        final accessId = await refreshToken();
+        token = accessId;
+        response = await http.put(
+            url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'charset': 'utf-8',
+              'Authorization': 'JWT $token',
+            },
+            body: bodyParameters
+        );
+
+        var jsonResponse = json.decode(response.body);
+        final result = parser(jsonResponse);
+        return result;
+      }
+      final result = parser(jsonResponse);
+      return result;
+    } on SocketException {
+      throw ApiClientException(ApiClientExceptionType.network);
+    } on ApiClientException {
+      rethrow;
+    } catch (e) {
+      throw ApiClientException(ApiClientExceptionType.other);
+    }
+  }
+
   bool _validateResponse(http.Response response, dynamic json) {
     if (response.statusCode == 401) {
       return false;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/domain/api_client/event_api_client.dart';
 import 'package:travel_app/domain/model/event_model/event_model.dart';
-import 'package:travel_app/ui/pages/widget/event_card.dart';
+import 'package:travel_app/ui/cards/event_card.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 
 import 'favorite_bloc/favorite_bloc.dart';
@@ -39,18 +39,26 @@ class _LoadEvents extends StatelessWidget {
           if (state is EventsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is EventsLoaded) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    EventCard(event: state.events[index]),
-                    _DeleteButton(event: state.events[index],)
-                  ],
-                );
+            return RefreshIndicator(
+              onRefresh: () async {
+                // Добавление события для обновления
+                context.read<FavoriteListBloc>().add(LoadFavoriteEvents());
               },
+              backgroundColor: AppColors.textColor1, // Цвет фона индикатора
+              color: Colors.white, // Цвет иконки индикатора
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: state.events.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      EventCard(event: state.events[index]),
+                      _DeleteButton(event: state.events[index],)
+                    ],
+                  );
+                },
+              ),
             );
           } else if (state is EventsError) {
             return Center(child: Text('Error: ${state.message}'));

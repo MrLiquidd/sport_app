@@ -65,6 +65,7 @@ class _DetailPageState extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.mainBackground,
         appBar: AppBar(
           title: Text(event.title,
             style: const TextStyle(

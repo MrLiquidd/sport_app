@@ -24,7 +24,7 @@ class EventApiClient {
 
 
     final result = await _networkClient.get(
-        '/events/',
+        '/events/all',
         parameters,
         parser
     );
@@ -55,7 +55,7 @@ class EventApiClient {
 
     List<Event> parser(dynamic json) {
       final List<Event> events = [];
-      final jsonList = json as List<dynamic>;
+      final jsonList = json['events'] as List<dynamic>;
       for (var jsonItem in jsonList) {
         events.add(Event.fromJson(jsonItem as Map<String, dynamic>));
       }
@@ -77,7 +77,7 @@ class EventApiClient {
 
     List<Event> parser(dynamic json) {
       final List<Event> events = [];
-      final jsonList = json as List<dynamic>;
+      final jsonList = json['events'] as List<dynamic>;
       for (var jsonItem in jsonList) {
         events.add(Event.fromJson(jsonItem as Map<String, dynamic>));
       }
@@ -117,6 +117,34 @@ class EventApiClient {
     );
     return result;
   }
+  Future<List<Event>> getSearchEvents(
+      String query
+      ) async {
+    final accessId = await _sessionDataProvider.getAccessJWTToken();
+
+    List<Event> parser(dynamic json) {
+      final List<Event> events = [];
+      json = json['events'];
+      final jsonList = json as List<dynamic>;
+      for (var jsonItem in jsonList) {
+        events.add(Event.fromJson(jsonItem as Map<String, dynamic>));
+      }
+      return events;
+    }
+
+    final parameters = <String, dynamic>{
+      'accessId': accessId!,
+    };
+
+    final encodedQuery = Uri.encodeQueryComponent(query);
+    final result = _networkClient.get(
+      '/events/search/?search=$encodedQuery',
+      parameters,
+      parser,
+    );
+    return result;
+  }
+
 
   Future<List<Event>> getRecordsEvents() async{
     final accessId = await _sessionDataProvider.getAccessJWTToken();

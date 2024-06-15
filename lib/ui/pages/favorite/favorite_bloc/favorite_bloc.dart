@@ -41,8 +41,13 @@ class FavoriteListBloc extends Bloc<FavoriteListEvent, FavoriteListState> {
       UnFavoriteEvent event,
       Emitter<FavoriteListState> emit
       ) async{
+    final currentState = state as EventsLoaded;
     try{
       await eventApiClient.deleteFavoriteEvent(event.event_id);
+      final updatedEvents = currentState.events
+          .where((e) => e.id != event.event_id)
+          .toList();
+      emit(EventsLoaded(updatedEvents));
     } catch (e){
       emit(EventsError(e.toString()));
     }
