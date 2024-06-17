@@ -102,13 +102,13 @@ class _HomeHeaderWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              IconButton(
-                  color: Colors.grey,
-                  iconSize: 30,
-                  onPressed: () {
-                    AuthService().logout();
-                  },
-                  icon: const Icon(Icons.notifications)),
+              // IconButton(
+              //     color: Colors.grey,
+              //     iconSize: 30,
+              //     onPressed: () {
+              //       AuthService().logout();
+              //     },
+              //     icon: const Icon(Icons.notifications)),
               IconButton(
                   iconSize: 30,
                   color: Colors.red,

@@ -28,6 +28,7 @@ class NetworkClient {
       ]) async {
     try {
       final url = _makeUri(path, parameters);
+      print(url);
       var response = await http.get(
         url,
         headers: {

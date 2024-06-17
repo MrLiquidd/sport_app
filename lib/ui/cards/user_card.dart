@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_app/configuration/configuration.dart';
 import 'package:travel_app/domain/model/user_info_model/user_info_model.dart';
 import 'package:travel_app/ui/navigation/main_navigation.dart';
+import 'package:travel_app/ui/pages/event_story/event_story_page.dart';
 import 'package:travel_app/ui/theme/colors.dart';
 
 class UserCard extends StatelessWidget {
@@ -42,7 +43,7 @@ class UserCard extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    _numEvents(),
+                    _numEvents(context),
                   ],
                 ),
               )
@@ -163,9 +164,14 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  Widget _numEvents() {
+  Widget _numEvents(context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarEventPage()),
+        );
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white, // Background color
         shape: RoundedRectangleBorder(

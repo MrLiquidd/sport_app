@@ -23,9 +23,9 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
   late AnimationController controller;
 
   var model = [
-    "http://127.0.0.1:8000/api/v1/images/images/Frame_461.png",
-    "http://127.0.0.1:8000/api/v1/images/images/Frame_462.png",
-    "http://127.0.0.1:8000/api/v1/images/images/Frame_463.png",
+    "http://80.87.97.253:8666/api/v1/images/images/Frame_461.png",
+    "http://80.87.97.253:8666/api/v1/images/images/Frame_462.png",
+    "http://80.87.97.253:8666/api/v1/images/images/Frame_463.png",
   ];
 
   @override
